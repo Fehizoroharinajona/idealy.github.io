@@ -15,6 +15,10 @@
     box-sizing: border-box;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 html,
 body {
     margin: 0;
@@ -50,6 +54,83 @@ ul {
 a {
     color: inherit;
     text-decoration: none;
+}
+
+.access-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+    background: #FADADD;
+}
+
+.access-form {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: min(100%, 440px);
+    gap: 0.55rem;
+    margin: auto;
+    padding: clamp(1.25rem, 5vw, 2rem);
+    border: 1px solid rgba(74, 25, 66, 0.15);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 12px 36px var(--shadow);
+}
+
+.access-form h1,
+.access-form p {
+    margin: 0 0 0.5rem;
+    text-align: center;
+}
+
+.access-form label {
+    margin-top: 0.35rem;
+    font-size: 1rem;
+}
+
+.access-form input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid rgba(74, 25, 66, 0.35);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text-main);
+    font: 1rem Arial, sans-serif;
+}
+
+.access-form input:focus-visible,
+.access-submit:focus-visible {
+    outline: 3px solid #7f1d1d;
+    outline-offset: 2px;
+}
+
+.access-error {
+    min-height: 1.5em;
+    color: #7f1d1d;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.access-submit {
+    min-height: 48px;
+    margin-top: 0.4rem;
+    border: 0;
+    border-radius: 999px;
+    background: #7f1d1d;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1rem;
+}
+
+.access-submit:hover {
+    background: #641717;
 }
 
 @keyframes apparition-section {
@@ -367,6 +448,75 @@ main {
 
 }
 
+.audio-toggle {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 20;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid rgba(74, 25, 66, 0.25);
+    border-radius: 50%;
+    background: #fff4f6;
+    color: #4A1942;
+    box-shadow: 0 4px 14px var(--shadow);
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.1rem;
+    transition: transform 200ms ease, background-color 200ms ease;
+}
+
+.audio-toggle:hover {
+    transform: scale(1.08);
+    background: #fff;
+}
+
+.audio-toggle:focus-visible {
+    outline: 3px solid #7f1d1d;
+    outline-offset: 3px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.email-status {
+    position: fixed;
+    right: 1rem;
+    bottom: 5.5rem;
+    left: 1rem;
+    z-index: 30;
+    width: fit-content;
+    max-width: min(440px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 0.5rem 0.85rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 14px var(--shadow);
+    color: #4A1942;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.email-status:empty {
+    display: none;
+}
+
+.email-status.is-error {
+    color: #7f1d1d;
+}
+
 .video-card {
     display: flex;
     flex-direction: column;
@@ -393,7 +543,65 @@ main {
 }
 
 .voeux {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
     padding: clamp(10px, 3vw, 24px);
+}
+
+.wish-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    padding: clamp(15px, 4vw, 32px);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.wish-form h2,
+.wish-form label {
+    margin: 0;
+    text-align: center;
+}
+
+.wish-form label {
+    font-size: 1.2rem;
+}
+
+.wish-form textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 0.75rem;
+    border: 1px solid rgba(74, 25, 66, 0.35);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-main);
+    font: 1rem/1.5 Arial, sans-serif;
+    resize: vertical;
+}
+
+.wish-form textarea:focus-visible,
+.wish-submit:focus-visible {
+    outline: 3px solid #7f1d1d;
+    outline-offset: 2px;
+}
+
+.wish-submit {
+    min-height: 48px;
+    align-self: center;
+    padding: 0.6rem 1.4rem;
+    border: 0;
+    border-radius: 999px;
+    background: #7f1d1d;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1rem;
+}
+
+.wish-submit:hover {
+    background: #641717;
 }
 
 .message {

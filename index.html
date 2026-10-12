@@ -5,12 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Inter:wght@400;500&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Inter:wght@400;500&display=swap">
     <title>Joyeux Anniversaire</title>
 </head>
 
 <body>
-    <header>
+    <section class="access-gate" aria-labelledby="access-title">
+        <form class="access-form">
+            <h1 id="access-title">Bienvenue</h1>
+            <p>Réponds à ces quelques questions pour découvrir ta surprise.</p>
+
+            <label for="access-nom">Nom</label>
+            <input id="access-nom" name="nom" type="text" autocomplete="family-name" autofocus required>
+
+            <label for="access-prenom">Prénom</label>
+            <input id="access-prenom" name="prenom" type="text" autocomplete="given-name" required>
+
+            <label for="access-naissance">Date de naissance</label>
+            <input id="access-naissance" name="dateNaissance" type="date" autocomplete="bday" required>
+
+            <label for="access-age">Âge</label>
+            <input id="access-age" name="age" type="number" min="1" max="120" inputmode="numeric" required>
+
+            <label for="access-personne">Nom de ta personne préférée (facultatif)</label>
+            <input id="access-personne" name="personnePreferee" type="text">
+
+            <p class="access-email-notice">Après validation, tes réponses seront envoyées par e-mail.</p>
+            <p class="access-error" role="alert" aria-live="assertive"></p>
+            <button class="access-submit" type="submit">Découvrir la surprise</button>
+        </form>
+    </section>
+
+    <header hidden>
         <div class="titre">
             <h1>Bonne anniversaire <span>Ma belle</span></h1>
         </div>
@@ -25,16 +52,17 @@
         </nav>
     </header>
 
-    <main>
+    <main hidden tabindex="-1">
         <section class="contenair" id="accueil">
             <div class="partie-one first">
                 <div class="text">
                     <h2>Bonne anniversaire</h2>
                     <h3>Tsiky LOHARANONIADOHANA !!!</h3>
-                    <p>joyeux anniversaire Tsiky, a tes 20ans, voici un cadeau qui n'est pas très normal. 
-je n'ai pas beaucoup ni quoi que se soit mais c'est la seul chose que je puisse t'offre.
-aujourd'hui est le plus grand jour de ta vie, je te laisse voir la suite.
-</p>
+                    <p>joyeux anniversaire Tsiky, a tes 20ans, voici un cadeau qui n'est pas très normal.
+                        je n'ai pas beaucoup ni quoi que se soit mais c'est la seul chose que je puisse t'offre.
+                        aujourd'hui est le plus grand jour de ta vie alors vie le pleinement et profit car ca n'arrive
+                        qu'une fois par an,<br> je te laisse voir la suite.
+                    </p>
                 </div>
 
                 <div class="img">
@@ -83,7 +111,7 @@ aujourd'hui est le plus grand jour de ta vie, je te laisse voir la suite.
                 <h2>Une petite vidéo qui vient du cœur</h2>
                 <div class="video-placeholder">
                     <video controls preload="metadata" playsinline>
-                        <source src="VIDEO/lv_7323166482622319879_20261007154000.mp4" type="video/mp4">
+                        <source src="VIDEO/lv_7695559969273400596_20261012144913.mp4" type="video/mp4">
                         Votre navigateur ne supporte pas la lecture de vidéos HTML5.
                     </video>
                 </div>
@@ -96,16 +124,96 @@ aujourd'hui est le plus grand jour de ta vie, je te laisse voir la suite.
                 <p>je te souhaits les plus grand vœux de bonheur. <br>
                     Que cette nouvelle année t'apporte joie, douceur et
                     mille belles surprises.
-<br>
+                    <br>
                     Que tout tes souhais se realise et que tes paine disparesse
-<br>
+                    <br>
                     Merci d'être qui tu es.
                 </p>
             </div>
+
+            <form class="wish-form">
+                <h2 id="wish-title">Écrire ton souhait</h2>
+                <label for="wish-message">Quel est ton souhait pour cette nouvelle année ?</label>
+                <textarea id="wish-message" name="souhait" rows="5" maxlength="1000" required></textarea>
+                <button class="wish-submit" type="submit">Envoyer votre souhait</button>
+            </form>
         </section>
     </main>
 
+    <audio class="audio-player" preload="metadata">
+        <source src="AUDIO/Matt Houston - Happy Birthday (Lyrics video officiel)(M4A_128K).m4a" type="audio/mpeg">
+        Votre navigateur ne supporte pas la lecture audio HTML5.
+    </audio>
+    <button class="audio-toggle" type="button" aria-label="Lire la musique" aria-pressed="false" hidden
+        title="Lire la musique">
+        <span aria-hidden="true">▶</span>
+    </button>
+    <p class="audio-status visually-hidden" aria-live="polite"></p>
+    <p class="email-status" role="status" aria-live="polite"></p>
+
     <script>
+        const reponsesAttendues = {
+            nom: 'LOHARANONIADOHANA',
+            prenom: 'Tsiky',
+            dateNaissance: '2006-10-13',
+            age: '20'
+        };
+
+        const formulaireAcces = document.querySelector('.access-form');
+        const messageAcces = document.querySelector('.access-error');
+
+        const normaliserReponse = (reponse) => reponse
+            .trim()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, ' ')
+            .toLocaleLowerCase('fr');
+
+        formulaireAcces.addEventListener('submit', (evenement) => {
+            evenement.preventDefault();
+
+            const reponsesSaisies = new FormData(formulaireAcces);
+            const identiteValide = Object.entries(reponsesAttendues).every(([champ, reponseAttendue]) =>
+                normaliserReponse(String(reponsesSaisies.get(champ) || '')) === normaliserReponse(reponseAttendue)
+            );
+
+            if (!identiteValide) {
+                messageAcces.textContent = 'Certaines réponses sont incorrectes. Vérifie tes informations et réessaie.';
+                return;
+            }
+
+            document.dispatchEvent(new CustomEvent('access:granted', {
+                detail: Object.fromEntries(reponsesSaisies.entries())
+            }));
+
+            document.querySelector('.access-gate').hidden = true;
+            document.querySelector('header').hidden = false;
+            document.querySelector('main').hidden = false;
+            document.querySelector('.audio-toggle').hidden = false;
+            document.querySelector('main').focus();
+        });
+
+        const formulaireSouhait = document.querySelector('.wish-form');
+
+        formulaireSouhait.addEventListener('submit', (evenement) => {
+            evenement.preventDefault();
+
+            const souhait = new FormData(formulaireSouhait).get('souhait').trim();
+            if (!souhait) {
+                const champSouhait = formulaireSouhait.elements.souhait;
+                champSouhait.setCustomValidity('Écris ton souhait avant de l’envoyer.');
+                champSouhait.reportValidity();
+                return;
+            }
+
+            formulaireSouhait.elements.souhait.setCustomValidity('');
+            document.dispatchEvent(new CustomEvent('wish:submit', { detail: souhait }));
+        });
+
+        formulaireSouhait.elements.souhait.addEventListener('input', (evenement) => {
+            evenement.currentTarget.setCustomValidity('');
+        });
+
         const piste = document.getElementById('piste');
 
         if (piste) {
@@ -117,6 +225,43 @@ aujourd'hui est le plus grand jour de ta vie, je te laisse voir la suite.
         }
 
         const sectionsAnimees = document.querySelectorAll('#accueil, #voeux');
+        const lecteurAudio = document.querySelector('.audio-player');
+        const statutAudio = document.querySelector('.audio-status');
+        const boutonAudio = document.querySelector('.audio-toggle');
+
+        if (lecteurAudio && statutAudio && boutonAudio) {
+            const iconeAudio = boutonAudio.querySelector('span');
+            const mettreAJourEtatAudio = (enLecture) => {
+                const action = enLecture ? 'Mettre la musique en pause' : 'Lire la musique';
+                iconeAudio.textContent = enLecture ? 'Ⅱ' : '▶';
+                boutonAudio.setAttribute('aria-label', action);
+                boutonAudio.setAttribute('aria-pressed', String(enLecture));
+                boutonAudio.title = action;
+            };
+
+            boutonAudio.addEventListener('click', async () => {
+                if (lecteurAudio.paused) {
+                    try {
+                        await lecteurAudio.play();
+                        statutAudio.textContent = '';
+                    } catch (erreur) {
+                        statutAudio.textContent = 'Impossible de lancer la musique. Vérifie le fichier AUDIO/chanson.mp3 et réessaie.';
+                        boutonAudio.title = statutAudio.textContent;
+                        boutonAudio.setAttribute('aria-label', statutAudio.textContent);
+                    }
+                } else {
+                    lecteurAudio.pause();
+                }
+            });
+
+            lecteurAudio.addEventListener('play', () => mettreAJourEtatAudio(true));
+            lecteurAudio.addEventListener('pause', () => mettreAJourEtatAudio(false));
+            lecteurAudio.addEventListener('ended', () => mettreAJourEtatAudio(false));
+            lecteurAudio.addEventListener('error', () => {
+                statutAudio.textContent = 'Impossible de charger le morceau. Vérifie que AUDIO/chanson.mp3 est bien présent.';
+                boutonAudio.title = statutAudio.textContent;
+            });
+        }
 
         if ('IntersectionObserver' in window) {
             const observateur = new IntersectionObserver((entrees) => {
@@ -128,6 +273,8 @@ aujourd'hui est le plus grand jour de ta vie, je te laisse voir la suite.
             sectionsAnimees.forEach((section) => observateur.observe(section));
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="JS/access-email.js"></script>
 </body>
 
 </html>
