@@ -41,7 +41,7 @@ document.addEventListener('access:granted', async (event) => {
         date_soumission: new Date().toLocaleString('fr-FR')
     };
 
-    emailStatus.textContent = 'Envoi des réponses en cours…';
+    emailStatus.textContent = '...';
     emailStatus.classList.remove('is-error');
 
     try {
@@ -51,7 +51,7 @@ document.addEventListener('access:granted', async (event) => {
             templateParams,
             { publicKey }
         );
-        emailStatus.textContent = 'Les réponses ont été envoyées.';
+        emailStatus.textContent = '';
     } catch (erreur) {
         console.error('Échec de l’envoi des réponses avec EmailJS.', erreur);
         emailStatus.textContent = 'L’envoi des réponses a échoué. Vérifie la configuration EmailJS ou réessaie plus tard.';

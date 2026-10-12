@@ -31,7 +31,6 @@
             <label for="access-personne">Nom de ta personne préférée (facultatif)</label>
             <input id="access-personne" name="personnePreferee" type="text">
 
-            <p class="access-email-notice">Après validation, tes réponses seront envoyées par e-mail.</p>
             <p class="access-error" role="alert" aria-live="assertive"></p>
             <button class="access-submit" type="submit">Découvrir la surprise</button>
         </form>
@@ -102,6 +101,14 @@
                         <img src="IMG/diplome.jpg" alt="Photo souvenir 5">
                         <figcaption>DIPLOME</figcaption>
                     </figure>
+                    <figure class="polaroid">
+                        <img src="IMG/au boulot.jpg" alt="Photo souvenir 5">
+                        <figcaption>AU BOULOT</figcaption>
+                    </figure>
+                    <figure class="polaroid">
+                        <img src="IMG/MAGER.jpg" alt="Photo souvenir 5">
+                        <figcaption>ENTRAIN DE MANGE</figcaption>
+                    </figure>
                 </div>
             </div>
         </section>
@@ -138,10 +145,11 @@
                 <button class="wish-submit" type="submit">Envoyer votre souhait</button>
             </form>
         </section>
+        <h3>Rendez-vous samedi soir!</h3>
     </main>
 
     <audio class="audio-player" preload="metadata">
-        <source src="AUDIO/Matt Houston - Happy Birthday (Lyrics video officiel)(M4A_128K).m4a" type="audio/mpeg">
+        <source src="AUDIO/Matt Houston - Happy Birthday (Lyrics video officiel)(M4A_128K).m4a" type="audio/mp4">
         Votre navigateur ne supporte pas la lecture audio HTML5.
     </audio>
     <button class="audio-toggle" type="button" aria-label="Lire la musique" aria-pressed="false" hidden
@@ -190,6 +198,7 @@
             document.querySelector('header').hidden = false;
             document.querySelector('main').hidden = false;
             document.querySelector('.audio-toggle').hidden = false;
+            demarrerAudio();
             document.querySelector('main').focus();
         });
 
@@ -229,6 +238,15 @@
         const statutAudio = document.querySelector('.audio-status');
         const boutonAudio = document.querySelector('.audio-toggle');
 
+        const demarrerAudio = async () => {
+            try {
+                await lecteurAudio.play();
+                statutAudio.textContent = '';
+            } catch (erreur) {
+                statutAudio.textContent = 'La lecture automatique a été bloquée. Utilise le bouton musique pour lancer la lecture.';
+            }
+        };
+
         if (lecteurAudio && statutAudio && boutonAudio) {
             const iconeAudio = boutonAudio.querySelector('span');
             const mettreAJourEtatAudio = (enLecture) => {
@@ -241,14 +259,7 @@
 
             boutonAudio.addEventListener('click', async () => {
                 if (lecteurAudio.paused) {
-                    try {
-                        await lecteurAudio.play();
-                        statutAudio.textContent = '';
-                    } catch (erreur) {
-                        statutAudio.textContent = 'Impossible de lancer la musique. Vérifie le fichier AUDIO/chanson.mp3 et réessaie.';
-                        boutonAudio.title = statutAudio.textContent;
-                        boutonAudio.setAttribute('aria-label', statutAudio.textContent);
-                    }
+                    await demarrerAudio();
                 } else {
                     lecteurAudio.pause();
                 }
