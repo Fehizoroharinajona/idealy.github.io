@@ -1,0 +1,1 @@
+# idealy.github.io
