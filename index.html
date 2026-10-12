@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Inter:wght@400;500&display=swap">
+    <title>Joyeux Anniversaire</title>
+</head>
+
+<body>
+    <header>
+        <div class="titre">
+            <h1>Bonne anniversaire <span>Ma belle</span></h1>
+        </div>
+
+        <nav aria-label="Menu principal">
+            <ul class="menu">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#galerie">Photo</a></li>
+                <li><a href="#video">Vidéo</a></li>
+                <li><a href="#voeux">Voeux</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contenair" id="accueil">
+            <div class="partie-one first">
+                <div class="text">
+                    <h2>Bonne anniversaire</h2>
+                    <h3>Tsiky LOHARANONIADOHANA !!!</h3>
+                    <p>joyeux anniversaire Tsiky, a tes 20ans, voici un cadeau qui n'est pas très normal. 
+je n'ai pas beaucoup ni quoi que se soit mais c'est la seul chose que je puisse t'offre.
+aujourd'hui est le plus grand jour de ta vie, je te laisse voir la suite.
+</p>
+                </div>
+
+                <div class="img">
+                    <img src="IMG/WhatsApp Image 2026-03-19 at 5.02.20 PM (2).jpeg"
+                        alt="Photo de célébration d'anniversaire">
+                </div>
+            </div>
+            <a class="scroll-cue" href="#galerie" aria-label="Défiler vers la galerie">
+                <span aria-hidden="true">↓</span>
+            </a>
+        </section>
+
+        <section class="galerie" aria-label="Galerie d'images" id="galerie">
+            <div class="titre-galerie">
+                <h2>Les souvenirs et les moments de tes 19 ans</h2>
+            </div>
+
+            <div class="defilement">
+                <div class="piste" id="piste">
+                    <figure class="polaroid">
+                        <img src="IMG/us.jpg" alt="Photo souvenir 1">
+                        <figcaption>LOVE</figcaption>
+                    </figure>
+                    <figure class="polaroid">
+                        <img src="IMG/rondonner.jpg" alt="Photo souvenir 2">
+                        <figcaption>RONDONNE</figcaption>
+                    </figure>
+                    <figure class="polaroid">
+                        <img src="IMG/en loisir.jpg" alt=Photo souvenir 3">
+                        <figcaption>LOISIR</figcaption>
+                    </figure>
+                    <figure class="polaroid">
+                        <img src="IMG/en famille.jpg" alt="Photo souvenir 4">
+                        <figcaption>EN FAMILLE</figcaption>
+                    </figure>
+                    <figure class="polaroid">
+                        <img src="IMG/diplome.jpg" alt="Photo souvenir 5">
+                        <figcaption>DIPLOME</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section id="video" class="video-section">
+            <div class="video-card">
+                <h2>Une petite vidéo qui vient du cœur</h2>
+                <div class="video-placeholder">
+                    <video controls preload="metadata" playsinline>
+                        <source src="VIDEO/lv_7323166482622319879_20261007154000.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <section id="voeux" class="voeux">
+            <div class="message">
+                <h2>voeux</h2>
+                <p>je te souhaits les plus grand vœux de bonheur. <br>
+                    Que cette nouvelle année t'apporte joie, douceur et
+                    mille belles surprises.
+<br>
+                    Que tout tes souhais se realise et que tes paine disparesse
+<br>
+                    Merci d'être qui tu es.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const piste = document.getElementById('piste');
+
+        if (piste) {
+            [...piste.children].forEach((element) => {
+                const copie = element.cloneNode(true);
+                copie.setAttribute('aria-hidden', 'true');
+                piste.appendChild(copie);
+            });
+        }
+
+        const sectionsAnimees = document.querySelectorAll('#accueil, #voeux');
+
+        if ('IntersectionObserver' in window) {
+            const observateur = new IntersectionObserver((entrees) => {
+                entrees.forEach((entree) => {
+                    entree.target.classList.toggle('is-visible', entree.isIntersecting);
+                });
+            }, { threshold: 0.15 });
+
+            sectionsAnimees.forEach((section) => observateur.observe(section));
+        }
+    </script>
+</body>
+
+</html>
